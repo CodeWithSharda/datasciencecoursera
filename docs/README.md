@@ -1,0 +1,1 @@
+A Plotly-powered interactive R Markdown presentation, created 26 October 2026. Source: `docs/index.Rmd`. Rendered site: `docs/index.html`. Plotly loads via CDN (internet required). For GitHub Pages choose branch `main` and folder `/docs` in Settings → Pages.
