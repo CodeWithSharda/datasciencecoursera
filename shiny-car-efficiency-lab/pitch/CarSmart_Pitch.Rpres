@@ -1,0 +1,72 @@
+CarSmart: Know Your Fuel Costs
+========================================================
+author: Rishabh Sharda
+date: October 27, 2026
+transition: none
+
+### A five-slide reproducible pitch
+
+**Estimate vehicle MPG, fuel consumption, and annual fuel cost — interactively.**
+
+Built using **R Shiny**, a regression model, and the built-in `mtcars` dataset.
+
+
+The Problem: Fuel Costs Are Hard to Visualize
+========================================================
+
+- Fuel costs depend on how efficiently a car drives **and** how far we travel.
+- Many people do not know how to translate MPG into an annual budget.
+- Comparing different vehicles or hypothetical fuel-efficiency gains should be simple.
+
+### CarSmart's promise
+
+**Five inputs → an instant, interpretable fuel-cost estimate.**
+
+
+The Engine: Real R Calculations
+========================================================
+
+The prediction uses **weight**, **horsepower**, and **transmission**.
+
+```{r, echo=TRUE}
+cars <- mtcars
+cars$transmission <- factor(cars$am, levels=c(0,1),
+                            labels=c("Automatic", "Manual"))
+fit <- lm(mpg ~ wt + hp + transmission, data=cars)
+example_car <- data.frame(wt=3, hp=120,
+   transmission=factor("Automatic", levels=levels(cars$transmission)))
+example_mpg <- as.numeric(predict(fit, newdata=example_car))
+round(c(MPG=example_mpg, Annual_cost_USD=12000/example_mpg*3.50), 2)
+```
+
+**The code above executes when the presentation renders.**
+
+
+Visual Evidence from the Data
+========================================================
+
+The model uses all **32 historical cars** in R's built-in `mtcars` dataset.
+
+```{r, echo=FALSE, fig.width=7.5, fig.height=3.5}
+plot(mtcars$wt, mtcars$mpg,
+     xlab="Car weight (1,000 lb)", ylab="Fuel efficiency (MPG)",
+     main="Historical vehicle weight vs MPG", pch=19,
+     col=ifelse(mtcars$am==1, "#d58b40", "#3b90a7"))
+legend("topright", legend=c("Automatic", "Manual"),
+       col=c("#3b90a7", "#d58b40"), pch=19, bty="n")
+```
+
+
+Why Try CarSmart?
+========================================================
+
+### Interactive, transparent, and beginner-friendly
+
+- **Input controls:** Weight, horsepower, transmission, annual mileage, fuel price.
+- **Live outputs:** Predicted MPG, annual fuel use, and annual USD cost.
+- **Explore:** See sample vehicles and hypothetical 10%/20% MPG improvements.
+- **Learn:** Built-in *How to use* tab explains every input and limitation.
+
+**Try the Shiny application using the submitted Shiny URL.**
+
+*Note: Based on a small historical dataset; for learning, not buying decisions.*
